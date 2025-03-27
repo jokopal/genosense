@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Ganoderma - Genosense</title>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='svg/logo.svg') }}" alt="Genosense Logo">
+                Genosense
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="about-container">
+            <a href="{{ url_for('index') }}" class="btn">← Back to Dashboard</a>
+            
+            <div class="about-section">
+                <h1>About Ganoderma and Classification Methods</h1>
+                
+                <div class="ganoderma-image-large">
+                    <img src="{{ url_for('static', filename='svg/ganoderma.svg') }}" alt="Ganoderma boninense illustration" width="200">
+                </div>
+            </div>
+            
+            <div class="about-section">
+                <h2>Ganoderma boninense</h2>
+                <p>Ganoderma boninense is a fungal pathogen that causes Basal Stem Rot (BSR) disease in oil palm trees. It is one of the most significant threats to palm oil production in Southeast Asia, particularly in Indonesia and Malaysia.</p>
+                
+                <p>The fungus attacks the base of the palm, causing rotting of the stem base and root tissues. Infection starts at the roots through spores or mycelium contact and gradually spreads to the stem base, eventually disrupting the tree's vascular system and causing death.</p>
+            </div>
+            
+            <div class="about-section">
+                <h2>Impact on Palm Oil Industry</h2>
+                <p>BSR disease has a severe economic impact on the palm oil industry:</p>
+                <ul>
+                    <li>Reduced yields of up to 80% in infected trees</li>
+                    <li>Premature death of trees, shortening economic lifespan</li>
+                    <li>Estimated losses of hundreds of millions of dollars annually</li>
+                    <li>Affects both mature and young palms</li>
+                    <li>Can persist in soil for extended periods, complicating replanting efforts</li>
+                </ul>
+                
+                <p>Early detection and intervention are crucial for managing the disease and minimizing economic impacts.</p>
+            </div>
+            
+            <div class="about-section">
+                <h2>Symptoms and Progression</h2>
+                <p>The progression of G. boninense infection typically follows these stages:</p>
+                <ol>
+                    <li><strong>Early infection</strong>: Root decay with no visible above-ground symptoms</li>
+                    <li><strong>Mild infection</strong>: Slight wilting, yellowing of older fronds</li>
+                    <li><strong>Moderate infection</strong>: Multiple yellowing fronds, reduced fruit production</li>
+                    <li><strong>Severe infection</strong>: Extensive frond death, stem base rotting, appearance of fungal fruiting bodies (brackets)</li>
+                    <li><strong>Terminal stage</strong>: Complete collapse and death of the palm</li>
+                </ol>
+                
+                <p>By the time visible symptoms appear, the infection is often advanced, making early detection through other means critical.</p>
+            </div>
+            
+            <div class="about-section">
+                <h2>Detection Technologies</h2>
+                <p>Genosense utilizes multiple technologies for G. boninense detection:</p>
+                
+                <h3>Multispectral Imaging</h3>
+                <p>Multispectral cameras capture data across multiple wavelengths of light, including those beyond human vision such as near-infrared (NIR). These images can reveal plant stress before visible symptoms appear.</p>
+                
+                <h3>Machine Learning Algorithms</h3>
+                <p>Our system employs several machine learning approaches:</p>
+                <ul>
+                    <li><strong>Artificial Neural Networks (ANN)</strong>: A supervised learning approach that processes multispectral data to identify patterns associated with G. boninense infection</li>
+                    <li><strong>UNet Architecture</strong>: A specialized convolutional neural network designed for biomedical image segmentation, adapted for precise identification of infected areas in multispectral imagery</li>
+                    <li><strong>Cellular Automata</strong>: A computational model used to predict the spread of infection based on current infection data and environmental factors</li>
+                </ul>
+            </div>
+            
+            <div class="about-section">
+                <h2>Classification Methodology</h2>
+                
+                <h3>Multispectral Analysis</h3>
+                <p>Our system analyzes several spectral indices derived from multispectral imagery:</p>
+                <ul>
+                    <li><strong>Normalized Difference Vegetation Index (NDVI)</strong>: Measures plant health and vigor</li>
+                    <li><strong>Normalized Difference Water Index (NDWI)</strong>: Assesses moisture content in vegetation</li>
+                    <li><strong>Photochemical Reflectance Index (PRI)</strong>: Indicates physiological stress</li>
+                    <li><strong>Custom indices</strong>: Specialized for early G. boninense detection</li>
+                </ul>
+                
+                <h3>Artificial Neural Network (ANN)</h3>
+                <p>The ANN model processes multispectral data to classify palm oil plants as:</p>
+                <ul>
+                    <li>Healthy</li>
+                    <li>Early-stage infection</li>
+                    <li>Moderate infection</li>
+                    <li>Severe infection</li>
+                </ul>
+                
+                <p>The model has been trained on thousands of labeled samples with known infection status, achieving high accuracy in field validation.</p>
+                
+                <h3>UNet Architecture</h3>
+                <p>Our UNet implementation provides pixel-level segmentation of multispectral images to precisely identify infected areas. This architecture is particularly effective because:</p>
+                <ul>
+                    <li>It can handle complex patterns and contextual information</li>
+                    <li>The encoder-decoder structure allows precise localization</li>
+                    <li>Skip connections preserve spatial information throughout the network</li>
+                    <li>It performs well even with limited training data</li>
+                </ul>
+                
+                <h3>Cellular Automata for Prediction</h3>
+                <p>The Cellular Automata model simulates infection spread by:</p>
+                <ul>
+                    <li>Modeling each plantation area as a grid of cells</li>
+                    <li>Defining transition rules based on infection dynamics</li>
+                    <li>Incorporating environmental factors like humidity, temperature, and soil conditions</li>
+                    <li>Simulating spread patterns over time to predict future infection areas</li>
+                </ul>
+            </div>
+            
+            <div class="about-section">
+                <h2>Management Strategies</h2>
+                <p>Based on Genosense detection, several management strategies can be implemented:</p>
+                <ul>
+                    <li><strong>Targeted fungicide application</strong> for early-stage infections</li>
+                    <li><strong>Isolation trenching</strong> to prevent root-to-root spread</li>
+                    <li><strong>Removal and proper disposal</strong> of severely infected palms</li>
+                    <li><strong>Biological control agents</strong> like Trichoderma spp.</li>
+                    <li><strong>Soil treatments</strong> to reduce fungal load in replanting areas</li>
+                </ul>
+                
+                <p>Early detection through Genosense significantly improves the effectiveness of these management strategies.</p>
+            </div>
+            
+            <div class="about-section">
+                <a href="{{ url_for('index') }}" class="btn">← Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

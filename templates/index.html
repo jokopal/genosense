@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genosense - Palm Oil Monitoring System</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='svg/logo.svg') }}" alt="Genosense Logo">
+                Genosense
+            </div>
+        </header>
+        
+        <!-- Main Content Area -->
+        <div class="content-container">
+            <!-- Sidebar Navigation -->
+            <div class="sidebar">
+                <div class="nav-item" data-view="dashboard">
+                    Dashboard
+                    <span class="nav-indicator"></span>
+                </div>
+                <div class="nav-item" data-view="pola">
+                    Pola
+                    <span class="nav-indicator"></span>
+                </div>
+                <div class="nav-item" data-view="trend">
+                    Trend
+                    <span class="nav-indicator"></span>
+                </div>
+                <div class="nav-item" data-view="prediksi">
+                    Prediksi
+                    <span class="nav-indicator"></span>
+                </div>
+                <div class="nav-item" data-view="upload">
+                    Upload Citra
+                    <span class="nav-indicator"></span>
+                </div>
+                <div class="nav-item" data-view="about">
+                    About Ganoderma
+                    <span class="nav-indicator"></span>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Map Container (Always Visible) -->
+                <div id="map" class="map-container"></div>
+                
+                <!-- Loading Indicator -->
+                <div class="loader" style="display: none;"></div>
+                
+                <!-- Dashboard Panel -->
+                <div class="panel dashboard-panel">
+                    <h2 class="panel-title">G. boninense Identification</h2>
+                    <div class="dashboard-content">
+                        <p>Welcome to Genosense, a monitoring system for palm oil plantations.</p>
+                        <p>This dashboard shows palm oil plants infected by G. boninense based on multispectral imagery analysis.</p>
+                        
+                        <div class="dashboard-stats">
+                            <h3>Statistics</h3>
+                            <div id="dashboard-stats-content">
+                                <!-- Will be populated with JS -->
+                                <p>Loading statistics...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button id="model-info-button" class="btn">Model Info</button>
+                            <button id="toggle-basemap" class="btn">Show Satellite</button>
+                            <button id="export-data" class="btn">Export Data</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pattern Analysis Panel -->
+                <div class="panel pola-panel panel-hidden">
+                    <h2 class="panel-title">Pattern Analysis</h2>
+                    <div class="pola-content">
+                        <p>Analysis of G. boninense infection distribution patterns.</p>
+                        
+                        <div class="chart-container">
+                            <canvas id="pattern-chart" height="250"></canvas>
+                        </div>
+                        
+                        <div id="pattern-analysis">
+                            <!-- Will be populated with JS -->
+                            <p>Loading pattern analysis...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trend Analysis Panel -->
+                <div class="panel trend-panel panel-hidden">
+                    <h2 class="panel-title">Trend Analysis</h2>
+                    <div class="trend-content">
+                        <p>Visualization of infection trends over time.</p>
+                        
+                        <div class="chart-container">
+                            <canvas id="trend-chart" height="250"></canvas>
+                        </div>
+                        
+                        <div id="trend-summary">
+                            <!-- Will be populated with JS -->
+                            <p>Loading trend analysis...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prediction Panel -->
+                <div class="panel prediksi-panel panel-hidden">
+                    <h2 class="panel-title">Infection Prediction</h2>
+                    <div class="prediksi-content">
+                        <p>Cellular Automata model for predicting G. boninense infection spread.</p>
+                        
+                        <div class="prediction-form">
+                            <label for="prediction-days">Prediction Days:</label>
+                            <input type="number" id="prediction-days" min="1" max="365" value="30">
+                            <button id="generate-prediction" class="btn">Generate Prediction</button>
+                        </div>
+                        
+                        <div id="prediction-summary">
+                            <!-- Will be populated with JS -->
+                            <p>Generate a prediction to see results</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- About Panel -->
+                <div class="panel about-panel panel-hidden">
+                    <h2 class="panel-title">About Ganoderma</h2>
+                    <div class="about-content">
+                        <div class="ganoderma-info">
+                            <div class="ganoderma-image">
+                                <img src="{{ url_for('static', filename='svg/ganoderma.svg') }}" alt="Ganoderma boninense illustration">
+                            </div>
+                            
+                            <h3>Ganoderma boninense</h3>
+                            <p>G. boninense is a fungal pathogen that causes basal stem rot (BSR) disease in oil palm trees. It is one of the most significant threats to palm oil production in Southeast Asia.</p>
+                            
+                            <h3>Impact</h3>
+                            <p>BSR disease can reduce oil palm yields by up to 80% and can lead to the death of infected trees. The economic impact is estimated to be hundreds of millions of dollars annually.</p>
+                            
+                            <h3>Detection Methods</h3>
+                            <p>Early detection is crucial for managing G. boninense infections. Genosense uses multispectral imagery and machine learning techniques to identify infected trees before visible symptoms appear.</p>
+                            
+                            <h3>Classification Methods</h3>
+                            <p>Our system uses several classification methods:</p>
+                            <ul>
+                                <li><strong>Artificial Neural Networks (ANN)</strong>: Supervised learning for multispectral image classification</li>
+                                <li><strong>UNet Architecture</strong>: For image segmentation and precise identification of infected areas</li>
+                                <li><strong>Cellular Automata</strong>: For modeling and predicting the spread of infections</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Upload Panel (Links to separate page) -->
+                <div class="panel upload-panel panel-hidden">
+                    <h2 class="panel-title">Upload Multispectral Imagery</h2>
+                    <div class="upload-content">
+                        <p>Upload multispectral imagery for automatic G. boninense detection using UNet architecture.</p>
+                        <p>For the best results, use georeferenced multispectral images that include near-infrared (NIR) bands.</p>
+                        
+                        <a href="{{ url_for('upload') }}" class="btn btn-success">Go to Upload Page</a>
+                    </div>
+                </div>
+                
+                <!-- Prediction Controls -->
+                <div class="prediction-controls panel-hidden">
+                    <h3>Time Control</h3>
+                    <div class="time-control">
+                        <input type="range" id="prediction-timeframe" min="0" max="5" value="0" class="prediction-slider">
+                        <div id="prediction-day-display">Day 0</div>
+                    </div>
+                    <div class="time-control-buttons">
+                        <button id="play-prediction" class="btn">▶ Play</button>
+                        <button id="reset-prediction" class="btn">↺ Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/leaflet.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cellular-automata.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/map-controls.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        // Initialize map controls after other scripts load
+        document.addEventListener('DOMContentLoaded', function() {
+            initMapControls();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+/* Genosense Main Stylesheet
+   Inspired by Nusantara Atlas (https://map.nusantara-atlas.org/)
+*/
+
+:root {
+  --primary: #2a3b4c;
+  --secondary: #34495e;
+  --accent: #e74c3c;
+  --accent-light: #ff6b6b;
+  --light: #ecf0f1;
+  --dark: #1a1a1a;
+  --success: #27ae60;
+  --warning: #f39c12;
+  --danger: #c0392b;
+  --sidebar-width: 300px;
+  --header-height: 50px;
+  --border-radius: 4px;
+  --transition-speed: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.header {
+  height: var(--header-height);
+  background-color: var(--primary);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo svg {
+  margin-right: 10px;
+  height: 30px;
+}
+
+.content-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--secondary);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.main-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Navigation */
+.nav-item {
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.active {
+  background-color: var(--primary);
+  border-left: 4px solid var(--accent);
+}
+
+.nav-item .nav-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--accent);
+}
+
+/* Map Container */
+.map-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Panels */
+.panel {
+  position: absolute;
+  background-color: rgba(26, 26, 26, 0.9);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 20px;
+  transition: transform var(--transition-speed), opacity var(--transition-speed);
+}
+
+.panel-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-hidden {
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Dashboard Panel */
+.dashboard-panel {
+  top: 20px;
+  right: 20px;
+  width: 350px;
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+}
+
+/* Upload Form */
+.upload-form {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: var(--secondary);
+  border-radius: var(--border-radius);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--border-radius);
+  color: var(--light);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.btn:hover {
+  background-color: var(--accent-light);
+}
+
+.btn-success {
+  background-color: var(--success);
+}
+
+.btn-warning {
+  background-color: var(--warning);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+}
+
+/* Flash Messages */
+.flash-container {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  z-index: 2000;
+}
+
+.flash-message {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.flash-success {
+  background-color: var(--success);
+}
+
+.flash-error {
+  background-color: var(--danger);
+}
+
+.flash-warning {
+  background-color: var(--warning);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Charts and Data Visualization */
+.chart-container {
+  background-color: rgba(26, 26, 26, 0.7);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.data-table th {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.data-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Infection Level Indicators */
+.infection-level {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.infection-level-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--success), var(--warning), var(--danger));
+  transition: width 0.3s ease-out;
+}
+
+/* About Page */
+.about-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.about-section {
+  margin-bottom: 40px;
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.about-section p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-item {
+    padding: 10px 15px;
+  }
+  
+  .dashboard-panel {
+    width: calc(100% - 40px);
+  }
+}
+
+/* Prediction Controls */
+.prediction-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  background-color: rgba(26, 26, 26, 0.9);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  width: 300px;
+}
+
+.prediction-slider {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.time-control-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.time-control-buttons button {
+  flex: 1;
+  margin: 0 5px;
+}
+
+/* Loader */
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--accent);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Map Legend */
+.map-legend {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(26, 26, 26, 0.9);
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  z-index: 1000;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+
+.legend-label {
+  font-size: 0.9rem;
+}
