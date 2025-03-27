@@ -1,1 +1,0 @@
-web: cd GenoSenseMap && gunicorn main:app
