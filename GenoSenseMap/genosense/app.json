@@ -1,0 +1,18 @@
+{
+  "name": "Genosense",
+  "description": "A palm oil monitoring system with machine learning for G. boninense infection identification",
+  "repository": "https://github.com/yourusername/genosense",
+  "keywords": ["python", "flask", "machine-learning", "palm-oil", "agriculture", "monitoring"],
+  "addons": ["heroku-postgresql"],
+  "env": {
+    "SESSION_SECRET": {
+      "description": "A secret key for session management",
+      "generator": "secret"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}

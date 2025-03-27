@@ -20,8 +20,7 @@ A comprehensive web-based platform for monitoring and analyzing Ganoderma bonine
 - **Frontend**: JavaScript, HTML, CSS
 - **Map Visualization**: Leaflet.js
 - **Charts**: Chart.js
-- **Deployment**: Heroku, CI/CD with GitHub Actions
-- **Cloud Integration**: Google Cloud Storage (for ML model hosting)
+- **Deployment**: Google App Engine, CI/CD with GitHub Actions
 
 ## Installation
 
@@ -74,29 +73,14 @@ A comprehensive web-based platform for monitoring and analyzing Ganoderma bonine
 
 ## Deployment
 
-### Heroku Deployment
-
-The application is configured for deployment to Heroku using GitHub Actions CI/CD:
-
-1. Set up the required GitHub Secrets:
-   - `HEROKU_API_KEY` - Your Heroku API key
-   - `HEROKU_APP_NAME` - The name of your Heroku application
-   - `HEROKU_EMAIL` - The email associated with your Heroku account
-
-2. Push to the `main` branch to trigger deployment, or manually run the workflow.
-
-For detailed instructions on Heroku deployment, see [README-HEROKU.md](genosense/README-HEROKU.md).
-
-### Google Cloud Platform Deployment (Alternative)
-
-The application can also be deployed to Google App Engine:
+The application is configured for deployment to Google App Engine using GitHub Actions CI/CD:
 
 1. Set up the required GitHub Secrets:
    - `GCP_PROJECT_ID` - Your Google Cloud Project ID
    - `GCP_SA_KEY` - Service Account Key JSON for authentication
    - `GCP_MODEL_BUCKET` - GCS bucket name for model storage
 
-2. Update the workflow file in `.github/workflows/` to use GCP deployment.
+2. Push to the `main` branch to trigger deployment, or manually run the workflow.
 
 ## Testing
 

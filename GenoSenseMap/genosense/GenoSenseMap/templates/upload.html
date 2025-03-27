@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Imagery - Genosense</title>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='svg/logo.svg') }}" alt="Genosense Logo">
+                Genosense
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="upload-container">
+            <div class="upload-form">
+                <h1>Upload Multispectral Imagery</h1>
+                <p>Upload multispectral images for automatic G. boninense detection using UNet architecture.</p>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file">Select Multispectral Image File:</label>
+                        <input type="file" id="file" name="file" class="form-control" accept=".tif,.tiff,.jpg,.jpeg,.png" required>
+                        <small class="form-text">Supported formats: TIFF, JPEG, PNG. Georeferenced multispectral images preferred.</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location Description (optional):</label>
+                        <input type="text" id="location" name="location" class="form-control" placeholder="e.g., North Block, Section A3">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Notes (optional):</label>
+                        <textarea id="notes" name="notes" class="form-control" rows="3" placeholder="Any additional information about the image or location"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Upload and Process</button>
+                        <a href="{{ url_for('index') }}" class="btn">Cancel</a>
+                    </div>
+                </form>
+                
+                <div class="upload-instructions">
+                    <h3>Instructions for Best Results:</h3>
+                    <ol>
+                        <li>Use georeferenced multispectral imagery when possible</li>
+                        <li>Ensure images include Near-Infrared (NIR) bands for optimal detection</li>
+                        <li>Images should have clear views of palm canopies without excessive cloud cover</li>
+                        <li>Higher resolution imagery (GSD < 1m) provides more accurate results</li>
+                        <li>For drone imagery, maintain consistent altitude during capture</li>
+                    </ol>
+                    
+                    <h3>Processing Time:</h3>
+                    <p>Processing time depends on image size and complexity:</p>
+                    <ul>
+                        <li>Small images (< 10MB): ~30 seconds</li>
+                        <li>Medium images (10-50MB): 1-3 minutes</li>
+                        <li>Large images (> 50MB): 3-5+ minutes</li>
+                    </ul>
+                    <p>You will be redirected to the results page when processing is complete.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const fileInput = document.getElementById('file');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                e.preventDefault();
+                alert('Please select a file to upload');
+                return false;
+            }
+            
+            const allowedTypes = ['.tif', '.tiff', '.jpg', '.jpeg', '.png'];
+            const fileName = fileInput.files[0].name;
+            const fileExt = '.' + fileName.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(fileExt)) {
+                e.preventDefault();
+                alert('Please upload a supported file type (TIFF, JPEG, PNG)');
+                return false;
+            }
+            
+            // Show loading message
+            const submitBtn = document.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Uploading and Processing...';
+            
+            // Add a loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loader';
+            loadingDiv.style.display = 'block';
+            submitBtn.parentNode.appendChild(loadingDiv);
+        });
+    </script>
+</body>
+</html>

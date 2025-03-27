@@ -1,6 +1,5 @@
 import os
 import json
-import logging
 from datetime import datetime
 from flask import render_template, request, jsonify, redirect, url_for, flash, send_from_directory
 from werkzeug.utils import secure_filename
@@ -8,42 +7,13 @@ import numpy as np
 
 from app import app, db
 from models import ImageData, InfectionData, PredictionModel
+from ml_models import process_image, get_model_info
+from cellular_automata import predict_spread
 
-# Set up logging
-logger = logging.getLogger(__name__)
-
-# Import our ML adapter that provides functionality whether or not TensorFlow is available
-from ml_adapter import process_image, predict_spread, get_model_info
-from ml_adapter import ML_BASE_AVAILABLE as ML_MODULES_AVAILABLE
-
-# Define placeholder functions for additional ML utilities that aren't in the adapter
-def get_available_models():
-    return {}
-    
-def load_model(*args, **kwargs):
-    return None
-    
-def clear_model_cache():
-    pass
-    
-class ImageProcessor:
-    def __init__(self, *args, **kwargs):
-        pass
-        
-    def detect_infections(self, *args, **kwargs):
-        return False, []
-        
-def get_gcp_config():
-    return {}
-    
-def is_gcp_configured():
-    return False
-    
-def setup_gcp_credentials(*args, **kwargs):
-    return False
-    
-def get_available_gcp_models():
-    return {}
+# Import new modules for model handling
+from model_utils.model_loader import get_available_models, load_model, clear_model_cache
+from model_utils.image_processor import ImageProcessor
+from model_utils.gcp_config import get_gcp_config, is_gcp_configured, setup_gcp_credentials, get_available_gcp_models
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'tif', 'tiff'}
 
@@ -84,17 +54,19 @@ def upload():
             db.session.add(new_image)
             db.session.commit()
             
-            # Process image (this would trigger the ML model)
-            if ML_MODULES_AVAILABLE:
+            try:
+                # Process image (this would trigger the ML model)
                 result_path = process_image(filepath, new_image.id)
-            else:
-                # Without ML modules, just store the original path
-                result_path = filepath
-            
-            # Update database entry with result
-            new_image.processed = True
-            new_image.result_path = result_path
-            db.session.commit()
+                
+                # Update database entry with result
+                new_image.processed = True
+                new_image.result_path = result_path
+                db.session.commit()
+            except Exception as e:
+                app.logger.error(f"Error processing image: {str(e)}")
+                flash(f'Error processing image: {str(e)}')
+                new_image.processed = False
+                db.session.commit()
             
             flash('File successfully uploaded and processed')
             return redirect(url_for('index'))
@@ -159,26 +131,14 @@ def predict():
     days = data.get('days', 30)
     
     # Generate prediction using cellular automata
-    if ML_MODULES_AVAILABLE:
-        prediction = predict_spread(current_state, days)
-    else:
-        # Return empty prediction data if ML modules not available
-        prediction = {"days": days, "predictions": []}
+    prediction = predict_spread(current_state, days)
     
     return jsonify(prediction)
 
 @app.route('/api/model_info')
 def model_info():
     """API endpoint to get information about the ML models"""
-    if ML_MODULES_AVAILABLE:
-        return jsonify(get_model_info())
-    else:
-        # Return empty model info if ML modules not available
-        return jsonify({
-            "models": [],
-            "count": 0,
-            "active_model": None
-        })
+    return jsonify(get_model_info())
 
 # Sample data route for development purposes
 @app.route('/api/sample_data', methods=['POST'])
@@ -210,7 +170,11 @@ def add_sample_data():
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     """Serve uploaded files"""
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    try:
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    except Exception as e:
+        app.logger.error(f"Error serving uploaded file {filename}: {str(e)}")
+        return "File not found", 404
 
 @app.route('/api/models')
 def get_models_list():
@@ -323,7 +287,7 @@ def upload_model():
     
     # Save the model file
     filename = secure_filename(model_file.filename)
-    models_dir = os.path.join(os.path.dirname(__file__), 'ml_utils', 'saved')
+    models_dir = os.path.join(os.path.dirname(__file__), 'models', 'saved')
     os.makedirs(models_dir, exist_ok=True)
     
     filepath = os.path.join(models_dir, filename)

@@ -18,17 +18,15 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "genosense_default_secret_key")
 
 # Configure the database
-# Fix for Heroku PostgreSQL - Heroku uses postgres:// URLs, but SQLAlchemy requires postgresql://
+# Fix for Heroku PostgreSQL URI (they use postgres:// instead of postgresql://)
 database_url = os.environ.get("DATABASE_URL", "sqlite:///genosense.db")
 if database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
-
+    
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True,
-    "pool_size": 10,
-    "max_overflow": 20,
 }
 app.config["UPLOAD_FOLDER"] = "uploads"
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16MB max upload size

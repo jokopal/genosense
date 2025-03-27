@@ -1,0 +1,45 @@
+{
+  "name": "Genosense Palm Oil Monitoring",
+  "description": "A web-based palm oil monitoring system with machine learning for G. boninense infection identification, analysis, and prediction",
+  "keywords": [
+    "python",
+    "flask",
+    "machine-learning",
+    "image-processing"
+  ],
+  "repository": "https://github.com/yourusername/genosense",
+  "env": {
+    "SESSION_SECRET": {
+      "description": "A secret key for session management",
+      "generator": "secret"
+    },
+    "ENABLE_ADVANCED_ML": {
+      "description": "Enable advanced ML features (TensorFlow/PyTorch)",
+      "value": "false"
+    },
+    "HEROKU_OAUTH_ID": {
+      "description": "Heroku OAuth ID for API access",
+      "value": "ad99376f-c110-4e3f-bb76-548a85727ff1"
+    },
+    "HEROKU_OAUTH_SECRET": {
+      "description": "Heroku OAuth Secret for API access",
+      "value": "3b3ec407-649a-4e04-b190-9afa6d6f8756"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  }
+}
