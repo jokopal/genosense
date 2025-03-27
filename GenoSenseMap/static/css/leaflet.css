@@ -1,0 +1,101 @@
+/* Leaflet CSS */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: #333;
+}
+
+/* Custom Map Styles */
+.leaflet-tile {
+  filter: brightness(0.8) contrast(1.2) saturate(0.8);
+}
+
+/* Popup Styles */
+.leaflet-popup-content-wrapper {
+  background-color: rgba(42, 59, 76, 0.95);
+  color: #ecf0f1;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px;
+}
+
+.leaflet-popup-tip {
+  background-color: rgba(42, 59, 76, 0.95);
+}
+
+/* Custom Marker Styles */
+.infection-marker {
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.infection-marker-low {
+  background-color: rgba(39, 174, 96, 0.8);
+}
+
+.infection-marker-medium {
+  background-color: rgba(243, 156, 18, 0.8);
+}
+
+.infection-marker-high {
+  background-color: rgba(192, 57, 43, 0.8);
+}
+
+/* Prediction overlay */
+.prediction-overlay {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+/* Control styles */
+.leaflet-control {
+  background-color: rgba(42, 59, 76, 0.9);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+
+.leaflet-control a {
+  color: #ecf0f1;
+}
+
+.leaflet-control-zoom a {
+  background-color: rgba(42, 59, 76, 0.9);
+  color: #ecf0f1;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: rgba(52, 73, 94, 0.9);
+}
+
+.leaflet-control-layers {
+  background-color: rgba(42, 59, 76, 0.9);
+  color: #ecf0f1;
+}
+
+.leaflet-control-layers-expanded {
+  padding: 10px;
+}
+
+/* Custom layer controls */
+.layer-control {
+  background-color: rgba(42, 59, 76, 0.9);
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.layer-control h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.layer-control label {
+  display: block;
+  margin: 4px 0;
+}
